@@ -107,7 +107,7 @@ module.exports = function(webpackEnv) {
       : isEnvDevelopment && "cheap-module-source-map",
     // These are the "entry points" to our application.
     // This means they will be the "root" imports that are included in JS bundle.
-    entry: paths.appIndexJs,
+    entry: isEnvProduction ? ["core-js", paths.appIndexJs] : paths.appIndexJs,
     output: {
       // The build folder.
       path: isEnvProduction ? paths.appBuild : undefined,
@@ -131,6 +131,7 @@ module.exports = function(webpackEnv) {
     },
     optimization: {
       minimize: isEnvProduction,
+      moduleIds: "named",
       minimizer: [
         // This is only used in production mode
         new TerserPlugin({
@@ -157,9 +158,7 @@ module.exports = function(webpackEnv) {
               // https://github.com/terser-js/terser/issues/120
               inline: 2,
             },
-            mangle: {
-              safari10: true,
-            },
+            mangle: false,
             // Added for profiling in devtools
             keep_classnames: isEnvProductionProfile,
             keep_fnames: isEnvProductionProfile,
