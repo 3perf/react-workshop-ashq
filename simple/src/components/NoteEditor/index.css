@@ -1,5 +1,20 @@
 .note-editor {
+  position: relative;
   padding: 18.5px 14px;
   border: 1px solid #e6e6e6;
   border-radius: 4px;
+}
+
+.note-editor__hint {
+  position: absolute;
+
+  margin-top: 18.5px;
+  margin-left: 4px;
+  padding: 4px 6px;
+  border-radius: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+
+  font-size: small;
+  background: #fffae0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }

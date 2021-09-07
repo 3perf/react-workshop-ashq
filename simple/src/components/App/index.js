@@ -1,7 +1,7 @@
 import { formatISO } from "date-fns/esm";
 import Jabber from "jabber";
 import { nanoid } from "nanoid";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateLastActiveDate } from "../../store/userReducer";
 import { deleteNotes, getNotes, putNote } from "../../utils/storage";
@@ -17,6 +17,11 @@ function App() {
   const [activeNoteId, setActiveNoteId] = useState(null);
 
   const dispatch = useDispatch();
+
+  const numberOfNotes = Object.keys(notes).length;
+  useLayoutEffect(() => {
+    document.body.classList.toggle("notes-list-pro-mode", numberOfNotes > 500);
+  }, [numberOfNotes]);
 
   const saveNote = (id, { text, date }) => {
     putNote(id, { text, date });

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { format } from "date-fns";
 import { Button, ButtonGroup, TextField } from "@material-ui/core";
 import "./index.css";
@@ -62,6 +62,8 @@ function NoteButton({ isActive, id, onNoteActivated, text, filterText, date }) {
   );
 }
 
+const NoteButtonMemo = memo(NoteButton);
+
 function NotesList({
   notes,
   activeNoteId,
@@ -92,7 +94,7 @@ function NotesList({
             return text.toLowerCase().includes(filter.toLowerCase());
           })
           .map(({ id, text, date }) => (
-            <NoteButton
+            <NoteButtonMemo
               key={id}
               isActive={activeNoteId === id}
               id={id}

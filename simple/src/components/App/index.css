@@ -23,3 +23,32 @@
   background: white;
   flex: 7 0 0;
 }
+
+.notes-list-pro-mode .notes__column_list {
+  background: #212121;
+  color: white;
+}
+
+.notes-list-pro-mode .MuiInputBase-root {
+  color: white;
+}
+
+.notes-list-pro-mode .MuiInputBase-root::before {
+  border-bottom-color: rgba(255, 255, 255, 0.42) !important;
+}
+.notes-list-pro-mode .MuiInputBase-root::after {
+  border-bottom-color: white !important;
+}
+
+.notes-list-pro-mode .MuiButtonBase-root {
+  background: white;
+}
+
+.notes-list-pro-mode .MuiButtonBase-root:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.notes-list-pro-mode .notes__column_list h1::after {
+  content: " Pro";
+  font-weight: normal;
+}
