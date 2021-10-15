@@ -1,25 +1,34 @@
-import ReactMarkdown from "react-markdown";
 import { useState } from "react";
-import gfm from "remark-gfm";
 import { format } from "date-fns";
 import { Button, ButtonGroup, TextField } from "@material-ui/core";
 import "./index.css";
 
-function generateNoteHeader(text) {
+function generateNoteHeader(text, filterText) {
   const firstLine = text
     .split("\n")
     .map((i) => i.trim())
     .filter((i) => i.length > 0)[0];
 
-  return (
-    <ReactMarkdown
-      remarkPlugins={[gfm]}
-      disallowedElements={["p", "h1", "h2", "h3", "h4", "h5", "h6"]}
-      unwrapDisallowed={true}
-    >
-      {firstLine}
-    </ReactMarkdown>
-  );
+  if (firstLine.toLowerCase().includes(filterText.toLowerCase())) {
+    // Split firstLine using `filterText` as a delimiter – but keep `filterText` as a part of the string.
+    // See example 2 in https://stackoverflow.com/a/25221523/1192426
+    const firstLineParts = firstLine.split(
+      new RegExp(
+        "(" + filterText.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&") + ")",
+        "gi"
+      )
+    );
+
+    return firstLineParts.map((part, index) => {
+      if (part.toLowerCase() === filterText.toLowerCase()) {
+        return <mark key={index}>{part}</mark>;
+      }
+
+      return part;
+    });
+  }
+
+  return firstLine;
 }
 
 function FilterInput({ filter, onChange, noteCount }) {
@@ -34,7 +43,7 @@ function FilterInput({ filter, onChange, noteCount }) {
   );
 }
 
-function NoteButton({ isActive, onNoteActivated, text, date }) {
+function NoteButton({ isActive, id, onNoteActivated, text, filterText, date }) {
   const className = [
     "notes-list__button",
     "notes-list__note",
@@ -44,11 +53,11 @@ function NoteButton({ isActive, onNoteActivated, text, date }) {
     .join(" ");
 
   return (
-    <button className={className} onClick={onNoteActivated}>
+    <button className={className} onClick={() => onNoteActivated(id)}>
       <span className="notes-list__note-meta">
         {format(date, "d MMM yyyy")}
       </span>
-      {generateNoteHeader(text)}
+      {generateNoteHeader(text, filterText)}
     </button>
   );
 }
@@ -86,8 +95,10 @@ function NotesList({
             <NoteButton
               key={id}
               isActive={activeNoteId === id}
-              onNoteActivated={() => onNoteActivated(id)}
+              id={id}
+              onNoteActivated={onNoteActivated}
               text={text}
+              filterText={filter}
               date={date}
             />
           ))}

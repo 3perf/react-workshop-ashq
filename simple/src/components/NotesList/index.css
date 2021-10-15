@@ -112,3 +112,8 @@
   font-family: inherit !important;
   text-transform: none !important;
 }
+
+mark {
+  background-color: #333;
+  color: white;
+}
