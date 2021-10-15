@@ -13167,9 +13167,9 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"react-workshop-smashing@workspace:.":
+"react-workshop-simple@workspace:.":
   version: 0.0.0-use.local
-  resolution: "react-workshop-smashing@workspace:."
+  resolution: "react-workshop-simple@workspace:."
   dependencies:
     "@craco/craco": ^6.1.2
     "@date-io/date-fns": ^2.10.11
